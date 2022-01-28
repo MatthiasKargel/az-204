@@ -1,4 +1,4 @@
-rnd=dev
+rnd=staging
 grp=az204-m07-secure-solutions-$rnd
 loc=westeurope
 cfg=foodconfig-$rnd
@@ -16,7 +16,7 @@ cfgmi=$(az appconfig identity assign -g $grp -n $cfg --query principalId -o tsv)
 az keyvault set-policy -n $vault --object-id $cfgmi --secret-permissions get list
 
 az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-identifier "https://$vault.vault.azure.net/Secrets/conSQLite" -y
-az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-identifier "https://$vault.vault.azure.net/Secrets/conSQLServer" -y --label prod 
+az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-identifier "https://$vault.vault.azure.net/Secrets/conSQLServer" -y --label staging 
 
 # alternative: keyvault policy assignment using service principal
 # principal=http://foodprincipal
@@ -24,6 +24,5 @@ az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-
 # az keyvault set-policy -n $vault --spn $principal --secret-permissions get list
 
 # create a feature flag and turn it on
-
 az appconfig feature set -n $cfg --feature AdminFeature -y
 az appconfig feature enable -n $cfg --feature AdminFeature -y
