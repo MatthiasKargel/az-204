@@ -26,3 +26,7 @@ az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-
 # create a feature flag and turn it on
 az appconfig feature set -n $cfg --feature AdminFeature -y
 az appconfig feature enable -n $cfg --feature AdminFeature -y
+
+cd food-api-appconfig
+az webapp up -n $app -g $grp -p $plan -l $loc --sku Free -r "DOTNET|6.0" 
+cd ..
