@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 var cfg = builder.Configuration.Get<FoodConfig>();
 
 // Service Bus
-builder.Services.Configure<ServiceBusConfig>(builder.Configuration.GetSection("ServiceBusConfig")));
+var cfgSB = builder.Configuration.GetSection("App:ServiceBusConfig");
+builder.Services.Configure<ServiceBusConfig>(cfgSB);
 
 // Entity Framework
 builder.Services.AddDbContext<FoodOrderDBContext>(opts => opts.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));
@@ -21,6 +22,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline -> Configure in Startup.cs
 app.UseSwagger();
+app.MapGet("/", () => "FoodOrder service is up and running. Go to /swagger for info");
 app.UseSwaggerUI();
 
 
